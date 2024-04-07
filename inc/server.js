@@ -24,7 +24,7 @@ module.exports = {
         fs.readFile(filePath, (err, data) => {
             if (err) {
                 res.writeHead(404, { 'Content-Type': 'text/plain' });
-                res.end('File not found');
+                res.end();
                 return;
             }
             const mimeType = mime.lookup(filePath);
@@ -55,7 +55,6 @@ module.exports = {
         // Verify director trasversal
         if (!this.checkSafePath(filePath, publicPath)) {
             res.writeHead(403);
-            res.write("Unauthorized.");
             res.end();
             return;
         }
@@ -65,17 +64,9 @@ module.exports = {
         // Check if the file exists
         fs.access(filePath, fs.constants.F_OK, (err) => {
             if (err) {
-                // File not found
-                if (!main) {
-                    res.end("This file was not found. Also I couldn't find the correct error page. What a mess.");
-                    return;
-                } else {
-                    req.url = "errors/404.md"
-                    res.writeHead(404, { 'Content-Type': 'text/html' });
-                    this.serve(req, res, false);
-                    return 
-                }
-    
+                res.writeHead(404);
+                res.end();
+                return;
             } else {
                 // Verify empty filename
                 if (fs.lstatSync(filePath).isDirectory() ) {
@@ -91,18 +82,13 @@ module.exports = {
                 // Read the file content
                 fs.readFile(filePath, 'utf8', (err, data) => {
                     if (err) {
-                        if (!main) {
-                            res.end("I couldn't read this file. Also I couldn't find the correct error page. What a mess.");
-                            return;
-                        } else {
-                            req.url = "errors/500.md"
-                            res.writeHead(500, { 'Content-Type': 'text/html' });
-                            this.serve(req, res, false);
-                            return
-                        }
+                        res.writeHead(500);
+                        res.end();
+                        return;
                     } else {
                         if(data.startsWith("REDIR:")) {
                             res.writeHead(302, {'Location' : data.replace('REDIR:', '')});
+                            res.end();
                             return;
                         }
                         // Process the markdown content
