@@ -17,6 +17,6 @@ const app = http.createServer((req, res) => {
 });
 
 // Listen on port 3000
-app.listen({port: 3000, host: 'localhost'}, () => {
-    console.log('Server running at http://localhost:3000');
+app.listen({port: process.env.port, host: process.env.host}, () => {
+    console.log(`Server running at http://${process.env.host}:${process.env.port}`);
 });
