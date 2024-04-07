@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>{{ pageTitle }} | {{ env.title }}</title>
+  <meta name="description" content="A pure HTML example, without dependencies." />
+
+  <!-- Pico.css -->
+  <link rel="stylesheet" href="/src/main.css" />
+</head>
+
+<body>
+  <main>
+    <div class="container">
+      <div class="breadcrumbs">
+      {{#each breadcrumbs}}
+        <a href='{{ this.url }}'>{{ this.text }}</a> /
+      {{/each}}
+      <strong>{{ fileName }}</strong>
+      </div>
+      <article class="content" id="content">
+        {{{ content }}}
+
+      </article>
+      <div class="lastedit">Last update: {{ modifyDate }}</div>
+    </div>
+  </main>
+  <!-- ./ Main -->
+
+  <!-- Footer -->
+  <footer class="container">
+    <small>
+      <a href="/privacy.md">Privacy</a> •
+      <a href="/technologies.md">Technologies</a> •
+      <a href="#nerdy">Toggle nerdy</a>
+    </small>
+  </footer>
+  <!-- ./ Footer -->
+  <script>
+    if(localStorage.getItem('nerdy') == '1') document.body.classList.add("nerdy");
+    const nerdyButton = document.querySelector("a[href='#nerdy']");
+    nerdyButton.addEventListener('click', function(e) {
+      document.body.classList.toggle("nerdy");
+      localStorage.setItem('nerdy', document.body.classList.contains('nerdy') ? 1 : 0);
+      e.preventDefault();
+    });
+    const printButton = document.querySelector("a[href='#print']");
+    if(printButton) {
+      printButton.addEventListener('click', function(e) {
+        window.print();
+      }); 
+    }
+
+    const localStorageShow = document.querySelector("a[href='#localStorage']");
+    if(localStorageShow) {
+      const pre = document.createElement('pre');
+      pre.innerHTML = JSON.stringify({...localStorage}, null, 2);
+      localStorageShow.parentNode.insertBefore(pre, localStorageShow);
+      localStorageShow.style.display = 'none';
+    }
+
+  </script>
+</body>
+
+</html>

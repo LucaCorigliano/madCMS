@@ -1,0 +1,87 @@
+@use 'node_modules/@picocss/pico/scss/pico' as pico;
+@import 'hack.css';
+
+:root {
+    --pico-font-family-monospace: 'Hack' !important;
+    --pico-typography-spacing-vertical: 0.5rem !important;
+}
+a {
+    text-decoration: none;
+}
+@media print {
+    .container {
+        max-width: 90vw;
+    }
+}
+footer {
+    text-align: center;
+    a { margin: 0.5em;}
+}
+.breadcrumbs {
+    margin-top: 1em;
+    border-bottom: 1px solid var(--pico-muted-border-color);
+    padding-bottom: 0.2em;
+    margin-bottom: 0.5em;
+}
+.lastedit {
+    text-align: right;
+    font-size: 80%;
+    padding-right: 0.5em;
+    text-transform: uppercase;
+    opacity: 0.5;
+}
+.content {
+    border-radius: 3px;
+    font-size: 16px;
+    margin-bottom: 0;
+    h1{font-size: 125%;}
+    h2{font-size: 120%;}
+    h3{font-size: 115%;}
+    h4{font-size: 110%;}
+    h5{font-size: 105%;}
+    h6{font-size: 100%;}
+ }
+.nerdy .content {
+    * {
+        font-family: var(--pico-font-family-monospace) !important;
+    }
+    h1:before { content: "# "; }
+    h2:before { content: "## "; }
+    h3:before { content: "### "; }
+    h4:before { content: "#### "; }
+    h5:before { content: "##### "; }
+    h6:before { content: "###### "; }
+    :before, :after {
+        opacity: 0.6; display: inline;
+    }
+    hr {
+        position: relative;
+        border: 0;
+        height: .5em;
+        overflow-x: hidden;
+        &:after {
+            content: '------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------';
+            position: absolute;
+            bottom: - .5em;
+        }
+    }
+    a:before {
+        content: '[';
+    }
+    a:after {
+        content : '](' attr(href)  ')';
+    }
+    pre {
+        code:before, code:after {content: '```'; display: block;}
+    }
+    code:before,code:after {content:'`';}
+    sup:before, sup:after {content:'^';}
+    i:before, i:after { content:'*';}
+    strong:before, strong:after { content:'**';}
+    li {
+        list-style: none;
+        &:has(p) > p:first-child:before, &:not(:has(p)):before {
+            content: '- ';
+        }
+    }
+}

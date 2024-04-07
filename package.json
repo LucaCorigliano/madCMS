@@ -1,0 +1,27 @@
+{
+  "name": "madcms",
+  "version": "1.0.0",
+  "description": "markdown CMS",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "bash deploy_stuff.sh",
+    "css": "sass main.scss public/src/main.css",
+    "css:watch": "npm run css && sass main.scss public/src/main.css -w",
+    "watch": "npm run deploy && concurrently --kill-others 'npm run css:watch' 'nodemon index.js'",
+    "dist": "npm run deploy && npm run css"
+  },
+  "author": "Luca Corigliano",
+  "license": "MIT",
+  "dependencies": {
+    "@picocss/pico": "^2.0.6",
+    "dotenv": "^16.4.5",
+    "hack-font": "^3.3.0",
+    "handlebars": "^4.7.8",
+    "marked": "^12.0.1",
+    "mime-types": "^2.1.35"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "dart-sass": "^1.25.0"
+  }
+}
