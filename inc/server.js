@@ -69,14 +69,16 @@ module.exports = {
                 } else {
                     req.url = "errors/404.md"
                     res.writeHead(404, { 'Content-Type': 'text/html' });
-                    return this.serve(req, res, false);
+                    this.serve(req, res, false);
+                    return 
                 }
     
             } else {
                 // Verify empty filename
                 if (fs.lstatSync(filePath).isDirectory() ) {
                     req.url = url + "/index.md";
-                    return this.serve(req, res);
+                    this.serve(req, res, false);
+                    return 
                 }
                 // This is only for local developement
                 if (extension.toLowerCase() !== "md") {
@@ -87,16 +89,18 @@ module.exports = {
                 fs.readFile(filePath, 'utf8', (err, data) => {
                     if (err) {
                         if (!main) {
-                            res.writeHead(500, { 'Content-Type': 'text/html' });
                             res.end("I couldn't read this file. Also I couldn't find the correct error page. What a mess.");
                             return;
                         } else {
                             req.url = "errors/500.md"
-                            return this.serve(req, res, false);
+                            res.writeHead(500, { 'Content-Type': 'text/html' });
+                            this.serve(req, res, false);
+                            return
                         }
                     } else {
                         if(data.startsWith("REDIR:")) {
                             res.writeHead(302, {'Location' : data.replace('REDIR:', '')});
+                            return;
                         }
                         // Process the markdown content
                         const htmlContent = marked.marked(data);
