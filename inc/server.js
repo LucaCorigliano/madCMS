@@ -48,6 +48,7 @@ module.exports = {
         const fileName = url.split('/').pop();
         const publicPath = path.join(__dirname, '../public');
         const filePath = path.join(publicPath, url);
+        console.log(url, extension, fileName, publicPath, filePath);
         // Verify director trasversal
         if (!this.checkSafePath(filePath, publicPath)) {
             res.writeHead(403);
