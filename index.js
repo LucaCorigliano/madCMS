@@ -4,7 +4,7 @@ const server = require('./inc/server');
 const handlebars = require('handlebars');
 const fs = require('fs');
 
-process.template = handlebars.compile(fs.readFileSync('template.handlebars', 'utf8'));
+process.template = handlebars.compile(fs.readFileSync(process.env.template, 'utf8'));
 
 require('dotenv').config()
 
