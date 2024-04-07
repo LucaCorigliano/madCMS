@@ -42,6 +42,9 @@ module.exports = {
      * @param {boolean} main Used for checking if this is a retry on a failed error message display
     */
     serve: function(req, res, main) {
+        while(req.url.startsWith("//")) {
+            req.url = req.url.substring(1);
+        }
         // Parse the requested URL
         const url = req.url.trim().replace(/\/$/, '');
         const extension = url.split('.').pop();
